@@ -197,25 +197,39 @@ class Server:
                 if self.game.turn == 0:
                     rules = "In order to move the desired piece, enter the following message: M piece location\n"
                     mysend(to_sock, M_IN_GAME + rules + self.game.game_board.print_board())
-                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_board())
+                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_reversed_board())
                     self.game.next_turn()
 
                 elif self.game.func_player_to_move() == from_name:
                     print('YAY YOUR TURN')
-                    if len(msg) > 1:
+                    if len(msg.rstrip()) > 1:
                         if msg[1] == 'M' and msg[2:].isalpha() == False:
 #                            try:
                             move = msg[2:].split()
                             piece_to_move = int(move[0])
 #                            _x_ = int(move[1][0])
                             KEY = move[1][0]
-                            _x_ = int(letter_to_number_dict[KEY])
+                            _x_ = letter_to_number_dict[KEY]
                             _y_ = int(move[1][1])
                             desired_loc = [_x_,_y_]
                             if piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == True:
                                 mysend(to_sock, M_IN_GAME + 'Turn #{} \n'.format(self.game.turn))
                                 mysend(to_sock, M_IN_GAME + from_name + ' moved piece ' + move[0] + ' to position ' + move[1] + '\n')
-                                mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
+                                if self.logged_name2sock[from_name] == from_sock:
+                                    if self.game.func_player_to_move() == self.game.players[0]:
+                                        mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
+                                        mysend(from_sock, M_IN_GAME + self.game.game_board.print_reversed_board())
+                                    else:
+#                                    """
+                                        mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_board() + '\nYour turn')
+                                        mysend(from_sock, M_IN_GAME + self.game.game_board.print_board())
+                                        
+#                                    """
+                                # WABBA OPT
+                                # WILL TRY TO RETURN THE RESPECTIVE BOARD
+                                else:
+                                    pass
+#                                    mysend(from_sock, M_IN_GAME + self.game.game_board.print_board())
                                 self.game.next_turn()
 
 #                            except:

@@ -401,7 +401,33 @@ class Board():
         print_board += '\n-|-----------------------------------------------|\n'
 
         return print_board
+    def print_reversed_board(self):
+        reversed_print_board = ''
+        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
+        label_y_axis = [i for i in range(9,-1,-1)]
+        count_y = 0
+        #Wabba Opt
+        reversed_print_board += '-|-----------------------------------------------|\n'
+        reversed_print_board += ' |                   {:<12}                |\n'.format('GAME BOARD')
+        reversed_print_board += '-|-----------------------------------------------|\n'
+        cop_board = self.board.copy()
+        cop_board.reverse()
+        for row in cop_board:
+            reversed_print_board += '{}|['.format(label_y_axis[count_y])
+            count_y += 1
+            for item in row:
+                if item == row[-1]:
+                    reversed_print_board += '{:>4} '.format(str(item))
+                else:
+                    reversed_print_board += '{:>4},'.format(str(item))
+            reversed_print_board += ']|\n'
+        reversed_print_board += '-|-----------------------------------------------|\n'
+        reversed_print_board += ' |  '
+        for i in label_x_axis:
+            reversed_print_board += '  {:^1} |'.format(i)
+        reversed_print_board += '\n-|-----------------------------------------------|\n'
 
+        return reversed_print_board
 """
 This is a simple implementation to make sure that the game works properly
 
