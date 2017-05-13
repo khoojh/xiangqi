@@ -361,7 +361,7 @@ class Board():
                         [ 0,  0,  0,  0,  0,  0,  0,  0,  0], #8
                         [24, 26, 28, 30, 32, 31, 29, 27, 25]  #9
                         ]
-                        
+    
     def get_board(self):
         return self.board
 
@@ -374,7 +374,31 @@ class Board():
         new_y = new_loc[1]
         self.board[new_y][new_x] = piece.get_ID()
 
-    
+    def ID_to_Chinese_name(self, IDD):
+        
+        Chinese_names = [ '兵_1', '兵_2', '兵_3', '兵_4' \
+                       ,'兵_5', '炮_1','炮 _2','俥_1' \
+                       ,'俥_2', '傌_1','傌_2','相_1' \
+                       ,'相_2', '仕_1', '仕_2',' 帥 ' \
+                       ,'卒_1', '卒_2', '卒_3', '卒_4' \
+                       ,'卒_5', '砲_1','砲_2', '車_1' \
+                       ,'車_2','馬_1','馬_2','象_1' \
+                       ,'象_2','士_1', '士_2' ,' 將 ']
+        ID_to_name_dict = {}        
+        
+        return ID_to_name_dict
+        
+    def ID_to_English_names():
+        piece_names = [ 'r_soldier_1', 'soldier_2', 'r_soldier_3', 'r_soldier_4' \
+                       ,'r_soldier_5', 'r_cannon_1','r_cannon_2','r_chariot_1' \
+                       ,'r_chariot_2', 'r_horse_1','r_horse_2','r_elephant_1' \
+                       ,'r_elephant_2', 'r_advisor_1', 'r_advisor_2','r_general' \
+                       ,'b_soldier_1', 'b_soldier_2', 'b_soldier_3', 'b_soldier_4' \
+                       ,'b_soldier_5', 'b_cannon_1','b_cannon_2', 'b_chariot_1' \
+                       ,'b_chariot_2','b_horse_1','b_horse_2','b_elephant_1' \
+                       ,'b_elephant_2','b_advisor_1', 'b_advisor_2' ,'b_general']
+        ID_to_name_dict = {}        
+ 
     def print_board(self):
         print_board = ''
         # Wabba Opt
