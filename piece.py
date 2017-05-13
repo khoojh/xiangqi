@@ -416,7 +416,7 @@ class Board():
                 if item == row[-1]:
                     print_board += '{:>4} '.format(str(item))
                 else:
-                    print_board += '{:>4},'.format(str(item))
+                    print_board += '{:>4} '.format(str(item))
             print_board += ']|\n'
         print_board += '-|-----------------------------------------------|\n'
         print_board += ' |  '
@@ -548,15 +548,15 @@ def move_piece(turn, piece_ID , loc, b, dictionary):
     msg = referee.referee(turn, piece_moved, loc, b.get_board(), enemy_general)
     
     
-    if msg == "END":
-        return "END"
-    
-    elif len(msg) == 0:
+#    if msg == "END":
+#        return msg
+
+    if len(msg) == 0:
         b.update_board(piece_moved, loc)
         return True
     
     else:
-        return False
+        return msg
 
 
 

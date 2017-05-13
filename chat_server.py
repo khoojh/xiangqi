@@ -217,9 +217,8 @@ class Server:
                                     print(piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary))
                                     mysend(to_sock, M_IN_GAME \
                                            + 'Turn #{} \n'.format(self.game.turn))
-                                    mysend(to_sock, M_IN_GAME + from_name \
-                                           + ' moved piece ' + move[0] \
-                                           + ' to position ' + move[1] + '\n')
+                                    mysend(to_sock, '{0} {1} moved piece {2} from position {3} to position ' + move[1] + '\n'.format\
+                                                             (M_IN_GAME, from_name, move[0], self.piece ))
                                     if self.logged_name2sock[from_name] == from_sock:
                                         if self.game.func_player_to_move() == self.game.players[0]:
                                             mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
@@ -230,11 +229,14 @@ class Server:
                                             mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_board() + '\nYour turn')
                                             mysend(from_sock, M_IN_GAME + self.game.game_board.print_board())
                                             self.game.next_turn()
-                                elif piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == "Cannot move opponent's piece!":
-                                    mysend(from_sock, M_IN_GAME + 'Cannot move opponent\'s piece!')
-                                    
                                 elif piece.move_piece(self.game.player_color[from_name] ,piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == 'END':
-                                    pass
+                                    mysend(to_sock, M_IN_GAME + 'You Lose.\nYou let your general die, ZZ will be disappointed in your 象棋 skills\nFeel free to stay here and chat but if you wish to return to the chat server enter: \'bye\'')
+                                    mysend(from_sock, M_IN_GAME + 'You Win.\nFeel free to stay in this group and brag to your opponent about your win.\nGGWP')
+                                else:
+                                    mysend(from_sock, M_IN_GAME + (piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary)))
+                                    
+                            except KeyError:
+                                mysend(from_sock, M_IN_GAME + 'You need to select a piece to move')
                             except IndexError:
                                 pass
                                             

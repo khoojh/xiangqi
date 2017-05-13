@@ -362,7 +362,7 @@ def referee(turn, piece_moved, new_loc, board, enemy_general):
 
     if piece_moved.get_location() == new_loc:
 
-        return "You have to move something!"
+        return "You have to move from the position you\'re currently standing on!"
 
     
 
@@ -370,7 +370,7 @@ def referee(turn, piece_moved, new_loc, board, enemy_general):
 
     if turn != piece_moved.get_color():
 
-        return "Cannot move opponent's piece!"
+        return "Don\'t be a traitor and try to kill your own pieces!"
 
     
 
