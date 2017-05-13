@@ -12,7 +12,7 @@ Created on Sat May  6 20:14:57 2017
 
 
 
-import piece
+#import piece
 
 
 
@@ -353,6 +353,8 @@ def general_scanner(general, board):
 # turn is a str ("red" or "black")
 
 def referee(turn, piece_moved, new_loc, board, enemy_general):
+    
+    import piece
 
 
 
