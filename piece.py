@@ -438,13 +438,13 @@ class Board():
     def print_board(self):
         print_board = ''
         # Wabba Opt
-        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
+        label_x_axis = ['A','B','C','D','E','F','G','H','I   ']
         label_y_axis = [i for i in range(10)]
         count_y = 0
         #Wabba Opt
-        print_board += '-|-----------------------------------------------|\n'
-        print_board += ' |                   {:<12}                |\n'.format('GAME BOARD')
-        print_board += '-|-----------------------------------------------|\n'
+        print_board += '-|-----------------------------------------------------------------|\n'
+        print_board += ' |                             {:<12}                        |\n'.format('GAME BOARD')
+        print_board += '-|-----------------------------------------------------------------|\n'
         for row in self.board:
             print_board += '{}|['.format(label_y_axis[count_y])
             count_y += 1
@@ -457,16 +457,16 @@ class Board():
 #                else:
 #                    print_board += '{:>4} '.format(str(item))
             print_board += ']|\n'
-        print_board += '-|-----------------------------------------------|\n'
+        print_board += '-|-----------------------------------------------------------------|\n'
         print_board += ' |  '
         for i in label_x_axis:
-            print_board += '  {:^1} |'.format(i)
-        print_board += '\n-|-----------------------------------------------|\n'
+            print_board += '  {:3} |'.format(i)
+        print_board += '\n-|-----------------------------------------------------------------|\n'
         return print_board
 
     def print_reversed_board(self):
         reversed_print_board = ''
-        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
+        label_x_axis = ['A','B','C','D','E','F','G','H','I']
         label_y_axis = [i for i in range(9,-1,-1)]
         count_y = 0
         #Wabba Opt
