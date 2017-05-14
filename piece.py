@@ -376,19 +376,20 @@ class Board():
 
     def ID_to_Chinese_name(self, IDD):
         
-        Chinese_names = [ '兵_1', '兵_2', '兵_3', '兵_4' \
-                       ,'兵_5', '炮_1','炮 _2','俥_1' \
-                       ,'俥_2', '傌_1','傌_2','相_1' \
-                       ,'相_2', '仕_1', '仕_2',' 帥 ' \
-                       ,'卒_1', '卒_2', '卒_3', '卒_4' \
-                       ,'卒_5', '砲_1','砲_2', '車_1' \
-                       ,'車_2','馬_1','馬_2','象_1' \
-                       ,'象_2','士_1', '士_2' ,' 將 ']
+        Chinese_names = [ '兵秩一', '兵秩二', '兵秩三', '兵秩四' \
+                       ,'兵秩五', '炮秩一','炮秩二','俥秩一' \
+                       ,'俥秩二', '傌秩一','傌秩二','相秩一' \
+                       ,'相秩二', '仕秩一', '仕秩二','秩帥秩' \
+                       ,'卒秩一', '卒秩二', '卒秩三', '卒秩四' \
+                       ,'卒秩五', '砲秩一','砲秩二', '車秩一' \
+                       ,'車秩二','馬秩一','馬秩二','象秩一' \
+                       ,'象秩一','士秩一', '士秩二' ,'秩將秩']
         ID_to_name_dict = {}        
+        for ID in range(1,33):
+            ID_to_name_dict[ID] = Chinese_names[ID - 1]
+        return ID_to_name_dict[IDD]
         
-        return ID_to_name_dict
-        
-    def ID_to_English_names():
+    def ID_to_English_names(self, IDD):
         piece_names = [ 'r_soldier_1', 'soldier_2', 'r_soldier_3', 'r_soldier_4' \
                        ,'r_soldier_5', 'r_cannon_1','r_cannon_2','r_chariot_1' \
                        ,'r_chariot_2', 'r_horse_1','r_horse_2','r_elephant_1' \
@@ -397,8 +398,43 @@ class Board():
                        ,'b_soldier_5', 'b_cannon_1','b_cannon_2', 'b_chariot_1' \
                        ,'b_chariot_2','b_horse_1','b_horse_2','b_elephant_1' \
                        ,'b_elephant_2','b_advisor_1', 'b_advisor_2' ,'b_general']
+        abbrvts = ['rs1','rs2','rs3','rs4','rs5','rp1','rp2','rc1','rc2','rh1','rh2','re1','re2','ra1'\
+                   ,'ra2','grl','bs1','bs2','bs3','bs4','bs5','bp1','bp2','bc1','bc2','bh1','bh2','be1'\
+                   ,'be2','ba1','ba2','grl']
         ID_to_name_dict = {}        
- 
+        for ID in range(1,33):
+            ID_to_name_dict[ID] = abbrvts[ID - 1]
+        return ID_to_name_dict[IDD]
+# OG VERSION THAT WORKS
+#    def print_board(self):
+#        print_board = ''
+#        # Wabba Opt
+#        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
+#        label_y_axis = [i for i in range(10)]
+#        count_y = 0
+#        #Wabba Opt
+#        print_board += '-|-----------------------------------------------|\n'
+#        print_board += ' |                   {:<12}                |\n'.format('GAME BOARD')
+#        print_board += '-|-----------------------------------------------|\n'
+#        for row in self.board:
+#            print_board += '{}|['.format(label_y_axis[count_y])
+#            count_y += 1
+#            for item in row:
+#                if item == row[-1]:
+#                    print_board += '{:>4} '.format(str(item))
+#                else:
+#                    print_board += '{:>4} '.format(str(item))
+#            print_board += ']|\n'
+#        print_board += '-|-----------------------------------------------|\n'
+#        print_board += ' |  '
+#        for i in label_x_axis:
+#            print_board += '  {:^1} |'.format(i)
+#        print_board += '\n-|-----------------------------------------------|\n'
+#        return print_board
+#
+#--------------------
+#GONNA TRY FIGURE THIS ONE OUT
+#-----------------------------
     def print_board(self):
         print_board = ''
         # Wabba Opt
@@ -413,18 +449,21 @@ class Board():
             print_board += '{}|['.format(label_y_axis[count_y])
             count_y += 1
             for item in row:
-                if item == row[-1]:
-                    print_board += '{:>4} '.format(str(item))
+                if item == 0:
+                    print_board += '{:^5}'.format('|一一一|')
+#                elif item == row[-1]:
                 else:
-                    print_board += '{:>4} '.format(str(item))
+                    print_board += '{:^5}'.format('|'+str(self.ID_to_Chinese_name(item)+'|'))
+#                else:
+#                    print_board += '{:>4} '.format(str(item))
             print_board += ']|\n'
         print_board += '-|-----------------------------------------------|\n'
         print_board += ' |  '
         for i in label_x_axis:
             print_board += '  {:^1} |'.format(i)
         print_board += '\n-|-----------------------------------------------|\n'
-
         return print_board
+
     def print_reversed_board(self):
         reversed_print_board = ''
         label_x_axis = ['A','B','C','D','E','F','G','H','I ']

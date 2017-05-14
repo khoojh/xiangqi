@@ -212,13 +212,15 @@ class Server:
                                 _x_ = letter_to_number_dict[KEY]
                                 _y_ = int(move[1][1])
                                 desired_loc = [_x_,_y_]
+#                                position_y, position_x = self.game.dictionary[piece_to_move].get_location()
+#                                standing_location = '{}{}'.format(letter_to_number_dict[position_y, position_x])
 #                                print(piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary))
                                 if piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == True:
-                                    print(piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary))
-                                    mysend(to_sock, M_IN_GAME \
-                                           + 'Turn #{} \n'.format(self.game.turn))
-                                    mysend(to_sock, '{0} {1} moved piece {2} from position {3} to position ' + move[1] + '\n'.format\
-                                                             (M_IN_GAME, from_name, move[0], self.piece ))
+                                    mysend(to_sock, M_IN_GAME + 'Turn #{} \n'.format(self.game.turn))
+                                    mysend(to_sock, M_IN_GAME + from_name \
+                                       + ' moved piece ' + move[0] \
+                                       + ' to position ' + move[1] + '\n')
+#                                    mysend(to_sock, M_IN_GAME + '{} moved piece {} from position {} to position {}'.format(from_name, move[0], standing_location, move[1]))
                                     if self.logged_name2sock[from_name] == from_sock:
                                         if self.game.func_player_to_move() == self.game.players[0]:
                                             mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
