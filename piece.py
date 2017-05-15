@@ -7,7 +7,6 @@ Created on Thu May  4 16:06:00 2017
 
 # Each piece is initiated with a unique location and ID at the beginning
 # of a game
-import matplotlib as ply
 import referee
 
 class Piece():
@@ -373,7 +372,14 @@ class Board():
         new_x = new_loc[0]
         new_y = new_loc[1]
         self.board[new_y][new_x] = piece.get_ID()
-
+        
+    def get_ID_from_location(self,location):
+        
+        location_x = location[0]
+        location_y = location[1]
+        piece_id = self.board[location_x][location_y] 
+        return piece_id
+    
     def ID_to_Chinese_name(self, IDD):
         
         Chinese_names = [ '兵秩一', '兵秩二', '兵秩三', '兵秩四' \

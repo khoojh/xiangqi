@@ -206,12 +206,37 @@ class Server:
                         if msg[1] == 'M' and msg[2:].isalpha() == False:
                             try:
                                 move = msg[2:].split()
-                                piece_to_move = int(move[0])
+                                print(move)
+                                piece_to_move = move[0]
+                                print(piece_to_move)
+                                piece_to_move_y = letter_to_number_dict[piece_to_move[0]]
+                                print(piece_to_move_y)
+                                piece_to_move_x = int(piece_to_move[1])
+                                print(piece_to_move_x)
+                                piece_to_move_coordinates = [piece_to_move_x,piece_to_move_y]
+                                print(piece_to_move_coordinates)
+                                piece_to_move_id = self.game.game_board.get_ID_from_location(piece_to_move_coordinates)
+                                print(piece_to_move_id)
+                                piece_to_move_object = self.game.dictionary[piece_to_move_id]
+                                print(piece_to_move_object)
+                                piece_to_move = piece_to_move_id
+                                print(piece_to_move)
+#                                piece_to_move = int(move[0])
     #                            _x_ = int(move[1][0])
-                                KEY = move[1][0]
-                                _x_ = letter_to_number_dict[KEY]
-                                _y_ = int(move[1][1])
-                                desired_loc = [_x_,_y_]
+                                desired_location = move[1]
+                                print(desired_location)
+                                desired_location_y = letter_to_number_dict[desired_location[0]]
+                                print(desired_location_y)
+                                desired_location_x = int(desired_location[1])
+                                print(desired_location_x)
+                                desired_location_coordinates = [desired_location_y, desired_location_x]
+                                print(desired_location_coordinates)
+                                desired_loc = desired_location_coordinates
+                                print(desired_loc)
+#                                KEY = move[1][0]
+#                                _x_ = letter_to_number_dict[KEY]
+#                                _y_ = int(move[1][1])
+#                                desired_loc = [_x_,_y_]
 #                                position_y, position_x = self.game.dictionary[piece_to_move].get_location()
 #                                standing_location = '{}{}'.format(letter_to_number_dict[position_y, position_x])
 #                                print(piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary))
