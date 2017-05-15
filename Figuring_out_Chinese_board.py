@@ -49,4 +49,3 @@ def print_board(self):
     print_board += '\n-|-----------------------------------------------|\n'
 
 b,p = piece.initialize_game()
-print(print_board(b]))

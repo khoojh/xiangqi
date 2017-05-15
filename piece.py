@@ -431,6 +431,34 @@ class Board():
             print_board += '  {:^1} |'.format(i)
         print_board += '\n-|-----------------------------------------------|\n'
         return print_board
+    def print_chinese_board(self):
+        print_board = ''
+        # Wabba Opt
+        label_x_axis = ['A','B','C','D','E','F','G','H','I   ']
+        label_y_axis = [i for i in range(10)]
+        count_y = 0
+        #Wabba Opt
+        print_board += '-|-----------------------------------------------------------------|\n'
+        print_board += ' |                             {:<12}                        |\n'.format('GAME BOARD')
+        print_board += '-|-----------------------------------------------------------------|\n'
+        for row in self.board:
+            print_board += '{}|['.format(label_y_axis[count_y])
+            count_y += 1
+            for item in row:
+                if item == 0:
+                    print_board += '{:^5}'.format('|一一一|')
+#                elif item == row[-1]:
+                else:
+                    print_board += '{:^5}'.format('|'+str(self.ID_to_Chinese_name(item)+'|'))
+#                else:
+#                    print_board += '{:>4} '.format(str(item))
+            print_board += ']|\n'
+        print_board += '-|-----------------------------------------------------------------|\n'
+        print_board += ' |  '
+        for i in label_x_axis:
+            print_board += '  {:3} |'.format(i)
+        print_board += '\n-|-----------------------------------------------------------------|\n'
+        return print_board
 #--------------------
 #GONNA TRY FIGURE THIS ONE OUT
 #-----------------------------
@@ -489,6 +517,34 @@ class Board():
             reversed_print_board += '  {:^1} |'.format(i)
         reversed_print_board += '\n-|-----------------------------------------------|\n'
 
+        return reversed_print_board
+    def print_chinese_reversed_board(self):
+        reversed_print_board = ''
+        # Wabba Opt
+        label_x_axis = ['A','B','C','D','E','F','G','H','I   ']
+        label_y_axis = [i for i in range(10)]
+        count_y = 0
+        #Wabba Opt
+        reversed_print_board += '-|-----------------------------------------------------------------|\n'
+        reversed_print_board += ' |                             {:<12}                        |\n'.format('GAME BOARD')
+        reversed_print_board += '-|-----------------------------------------------------------------|\n'
+        for row in self.board:
+            reversed_print_board += '{}|['.format(label_y_axis[count_y])
+            count_y += 1
+            for item in row:
+                if item == 0:
+                    reversed_print_board += '{:^5}'.format('|一一一|')
+#                elif item == row[-1]:
+                else:
+                    reversed_print_board += '{:^5}'.format('|'+str(self.ID_to_Chinese_name(item)+'|'))
+#                else:
+#                    print_board += '{:>4} '.format(str(item))
+            reversed_print_board += ']|\n'
+        reversed_print_board += '-|-----------------------------------------------------------------|\n'
+        reversed_print_board += ' |  '
+        for i in label_x_axis:
+            reversed_print_board += '  {:3} |'.format(i)
+        reversed_print_board += '\n-|-----------------------------------------------------------------|\n'
         return reversed_print_board
 """
 This is a simple implementation to make sure that the game works properly
