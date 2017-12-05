@@ -1,6 +1,7 @@
 # xiangqi
 Xiangqi (Chinese chess) to be played in command-line interface
 
+(The game is currently down)
 
 ## Installation
 
@@ -24,8 +25,4 @@ Version 1.0
 
 ## Credits
 
-TODO: Write credits
-
-## License
-
-TODO: Write license
+Co-author: @elchackattack
