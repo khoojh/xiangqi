@@ -196,8 +196,13 @@ class Server:
                 # It's your turn
                 if self.game.turn == 0:
                     rules = "In order to move the desired piece, enter the following message: M piece location\n"
-                    mysend(to_sock, M_IN_GAME + rules + self.game.game_board.print_board())
-                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_reversed_board())
+#                    mysend(to_sock, M_IN_GAME + rules + self.game.game_board.print_board())
+                    mysend(to_sock, M_IN_GAME + rules + self.game.game_board.print_english_board())
+#                    mysend(to_sock, M_IN_GAME + rules + self.game.game_board.print_chinese_board())
+#                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_reversed_board())
+                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_reversed_english_board())
+#                    mysend(from_sock, M_IN_GAME + rules + self.game.game_board.print_reversed_chinese_board())
+
                     self.game.next_turn()
 
                 elif self.game.func_player_to_move() == from_name:
@@ -209,6 +214,8 @@ class Server:
                                 print(move)
                                 piece_to_move = move[0]
                                 print(piece_to_move)
+                                init_location_print = piece_to_move
+                                
                                 piece_to_move_y = letter_to_number_dict[piece_to_move[0]]
                                 print(piece_to_move_y)
                                 piece_to_move_x = int(piece_to_move[1])
@@ -243,18 +250,32 @@ class Server:
                                 if piece.move_piece(self.game.player_color[from_name], piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == True:
                                     mysend(to_sock, M_IN_GAME + 'Turn #{} \n'.format(self.game.turn))
                                     mysend(to_sock, M_IN_GAME + from_name \
-                                       + ' moved piece ' + move[0] \
-                                       + ' to position ' + move[1] + '\n')
+                                       + ' moved ' + self.game.game_board.ID_to_English_names(piece_to_move_id) \
+                                       + ' from position ' + init_location_print + ' to position ' + move[1] + '\n')
 #                                    mysend(to_sock, M_IN_GAME + '{} moved piece {} from position {} to position {}'.format(from_name, move[0], standing_location, move[1]))
                                     if self.logged_name2sock[from_name] == from_sock:
                                         if self.game.func_player_to_move() == self.game.players[0]:
-                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
-                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_reversed_board())
+#                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_board() + '\nYour turn')
+#                                            mysend(to_sock, M_IN_GAME + str(self.game.game_board.print_chinese_board()) + '\nYour turn')
+                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_english_board() + '\nYour turn')
+
+#                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_reversed_board())
+#                                            mysend(from_sock, M_IN_GAME + str(self.game.game_board.print_reversed_chinese_board()))
+                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_reversed_english_board())
+
+                                            
                                             self.game.next_turn()
     #                                    """
                                         else:
-                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_board() + '\nYour turn')
-                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_board())
+#                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_board() + '\nYour turn')
+#                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_chinese_board() + '\nYour turn')
+                                            mysend(to_sock, M_IN_GAME + self.game.game_board.print_reversed_english_board() + '\nYour turn')
+
+#                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_board())
+#                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_chinese_board())
+                                            mysend(from_sock, M_IN_GAME + self.game.game_board.print_english_board())
+
+
                                             self.game.next_turn()
                                 elif piece.move_piece(self.game.player_color[from_name] ,piece_to_move, desired_loc, self.game.game_board, self.game.dictionary) == 'END':
                                     mysend(to_sock, M_IN_GAME + 'You Lose.\nYou let your general die, ZZ will be disappointed in your 象棋 skills\nFeel free to stay here and chat but if you wish to return to the chat server enter: \'bye\'')

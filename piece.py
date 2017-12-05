@@ -11,7 +11,6 @@ import referee
 
 class Piece():
     def __init__(self, location, ID):
-#        self.status = 1 # 1 means alive, 0 means dead
         self.location = location
         self.ID = ID
         if self.ID >= 0 and self.ID <= 16:
@@ -19,12 +18,6 @@ class Piece():
         else:
             self.color = "black"
         self.possible_moves = []
-        
-#    def get_status(self):
-#        return self.status
-    
-#    def set_status(self, n):
-#        self.status = n # n is either 0 or 1
     
     def get_location(self):
         return self.location
@@ -59,6 +52,8 @@ class Soldier(Piece):
     #However, each piece are aware of their own in-map boundaries (eg palace for general)
     
     def update_possible_moves(self):
+        
+        self.possible_moves = []
 
         loc = self.location[::]
         
@@ -101,7 +96,9 @@ class Cannon(Piece):
     def __init__(self, location, ID):
         super().__init__(location, ID)
 
-    def update_possible_moves(self):  
+    def update_possible_moves(self):
+        
+        self.possible_moves = []
 
         loc = self.location[::]
             
@@ -121,6 +118,8 @@ class Chariot(Piece):
         super().__init__(location, ID)
 
     def update_possible_moves(self):  
+        
+        self.possible_moves = []
 
         loc = self.location[::]
             
@@ -140,6 +139,8 @@ class Horse(Piece):
         super().__init__(location, ID)
 
     def update_possible_moves(self):  
+        
+        self.possible_moves = []
 
         loc = self.location[::]
         
@@ -190,6 +191,8 @@ class Elephant(Piece):
 
     def update_possible_moves(self):  
         
+        self.possible_moves = []
+        
         moves = []
         
         loc = self.location[::]
@@ -225,6 +228,8 @@ class Advisor(Piece):
         super().__init__(location, ID)
 
     def update_possible_moves(self):  
+        
+        self.possible_moves = []
 
         loc = self.location[::]
         
@@ -258,6 +263,8 @@ class General(Piece):
         super().__init__(location, ID)
 
     def update_possible_moves(self):  
+        
+        self.possible_moves = []
 
         moves = []
         
@@ -307,16 +314,14 @@ class General(Piece):
         #Prevent general from leaving the palace
         for move in moves:
             if self.color == "red":
-                if (move[0] >= 3 or move[0] <= 5) and move[1] <= 2:
+                if (move[0] >= 3 and move[0] <= 5) and move[1] <= 2:
                     self.possible_moves.append(move)
             
             elif self.color == "black":
-                if (move[0] >= 3 or move[0] <= 5) and move[1] >= 7:
+                if (move[0] >= 3 and move[0] <= 5) and move[1] >= 7:
                     self.possible_moves.append(move)
         
         return self.possible_moves
-        
-        
 
 
 """
@@ -339,8 +344,6 @@ Horse: 26, 27
 Elephant: 28, 29
 Advisor: 30, 31
 General: 32
-
---> Might need a dict to map ID's to pieces
 
 """
 
@@ -437,34 +440,63 @@ class Board():
             print_board += '  {:^1} |'.format(i)
         print_board += '\n-|-----------------------------------------------|\n'
         return print_board
-    def print_chinese_board(self):
-        print_board = ''
+    
+    def print_english_board(self):
+        print_english_board = ''
         # Wabba Opt
-        label_x_axis = ['A','B','C','D','E','F','G','H','I   ']
+        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
         label_y_axis = [i for i in range(10)]
         count_y = 0
         #Wabba Opt
-        print_board += '-|-----------------------------------------------------------------|\n'
-        print_board += ' |                             {:<12}                        |\n'.format('GAME BOARD')
-        print_board += '-|-----------------------------------------------------------------|\n'
+        print_english_board += '-|-----------------------------------------------|\n'
+        print_english_board += ' |                   {:<12}                |\n'.format('GAME BOARD')
+        print_english_board += '-|-----------------------------------------------|\n'
         for row in self.board:
-            print_board += '{}|['.format(label_y_axis[count_y])
+            print_english_board += '{}|['.format(label_y_axis[count_y])
+            count_y += 1
+            for item in row:
+#                if item == row[-1] or item == 0:
+                if item == 0:
+                    print_english_board += '{:>4} '.format(str(item))
+                else:
+                    print_english_board += '{:>4} '.format(self.ID_to_English_names(item))
+            print_english_board += ']|\n'
+        print_english_board += '-|-----------------------------------------------|\n'
+        print_english_board += ' |  '
+        for i in label_x_axis:
+            print_english_board += '  {:^1} |'.format(i)
+        print_english_board += '\n-|-----------------------------------------------|\n'
+        return print_english_board
+    
+    def print_chinese_board(self):
+        print_chinese_board = ''
+        # Wabba Opt
+        label_x_axis = ['A','B','C','D','E','F','G','H','   I   ']
+        label_y_axis = [i for i in range(10)]
+        count_y = 0
+        #Wabba Opt
+        print_chinese_board += '-|--------------------------------------------------------------------------|\n'
+        print_chinese_board += ' |                                  {:<12}                            |\n'.format('GAME BOARD')
+        print_chinese_board += '-|--------------------------------------------------------------------------|\n'
+        for row in self.board:
+            print_chinese_board += '{}|['.format(label_y_axis[count_y])
             count_y += 1
             for item in row:
                 if item == 0:
-                    print_board += '{:^5}'.format('|一一一|')
-#                elif item == row[-1]:
+                    print_chinese_board += '{:^6}'.format('|一一一|')
+                    
+                elif item == row[-1] and item == 0:
+                    print_chinese_board += '{:^6}'.format(str(item))
+
                 else:
-                    print_board += '{:^5}'.format('|'+str(self.ID_to_Chinese_name(item)+'|'))
-#                else:
-#                    print_board += '{:>4} '.format(str(item))
-            print_board += ']|\n'
-        print_board += '-|-----------------------------------------------------------------|\n'
-        print_board += ' |  '
+                    print_chinese_board += '{:^6}'.format(self.ID_to_Chinese_name(item))
+            print_chinese_board += ']|\n'
+        print_chinese_board += '-|--------------------------------------------------------------------------|\n'
+        print_chinese_board += ' |  '
         for i in label_x_axis:
-            print_board += '  {:3} |'.format(i)
-        print_board += '\n-|-----------------------------------------------------------------|\n'
-        return print_board
+            print_chinese_board += ' {:^6}|'.format(i)
+        print_chinese_board += '\n-|--------------------------------------------------------------------------|\n'
+        return print_chinese_board
 #--------------------
 #GONNA TRY FIGURE THIS ONE OUT
 #-----------------------------
@@ -524,34 +556,68 @@ class Board():
         reversed_print_board += '\n-|-----------------------------------------------|\n'
 
         return reversed_print_board
-    def print_chinese_reversed_board(self):
-        reversed_print_board = ''
-        # Wabba Opt
-        label_x_axis = ['A','B','C','D','E','F','G','H','I   ']
-        label_y_axis = [i for i in range(10)]
+    
+    def print_reversed_english_board(self):
+        reversed_print_english_board = ''
+        label_x_axis = ['A','B','C','D','E','F','G','H','I ']
+        label_y_axis = [i for i in range(9,-1,-1)]
         count_y = 0
         #Wabba Opt
-        reversed_print_board += '-|-----------------------------------------------------------------|\n'
-        reversed_print_board += ' |                             {:<12}                        |\n'.format('GAME BOARD')
-        reversed_print_board += '-|-----------------------------------------------------------------|\n'
-        for row in self.board:
-            reversed_print_board += '{}|['.format(label_y_axis[count_y])
+        reversed_print_english_board += '-|-----------------------------------------------|\n'
+        reversed_print_english_board += ' |                   {:<12}                |\n'.format('GAME BOARD')
+        reversed_print_english_board += '-|-----------------------------------------------|\n'
+        cop_board = self.board.copy()
+        cop_board.reverse()
+        for row in cop_board:
+            reversed_print_english_board += '{}|['.format(label_y_axis[count_y])
+            count_y += 1
+            for item in row:
+#                if item == row[-1] or item == 0:
+                if item == 0:
+                    reversed_print_english_board += '{:>4} '.format(str(item))
+                else:
+                    reversed_print_english_board += '{:>4} '.format(self.ID_to_English_names(item))
+            reversed_print_english_board += ']|\n'
+        reversed_print_english_board += '-|-----------------------------------------------|\n'
+        reversed_print_english_board += ' |  '
+        for i in label_x_axis:
+            reversed_print_english_board += '  {:^1} |'.format(i)
+        reversed_print_english_board += '\n-|-----------------------------------------------|\n'
+
+        return reversed_print_english_board
+
+    def print_reversed_chinese_board(self):
+        reversed_chinese_print_board = ''
+        label_x_axis = ['A','B','C','D','E','F','G','H','   I   ']
+        label_y_axis = [i for i in range(9,-1,-1)]
+        count_y = 0
+        #Wabba Opt
+        reversed_chinese_print_board += '-|--------------------------------------------------------------------------|\n'
+        reversed_chinese_print_board += ' |                                  {:<12}                            |\n'.format('GAME BOARD')
+        reversed_chinese_print_board += '-|--------------------------------------------------------------------------|\n'
+        cop_board = self.board.copy()
+        cop_board.reverse()
+        for row in cop_board:
+            reversed_chinese_print_board += '{}|['.format(label_y_axis[count_y])
             count_y += 1
             for item in row:
                 if item == 0:
-                    reversed_print_board += '{:^5}'.format('|一一一|')
-#                elif item == row[-1]:
+                    reversed_chinese_print_board += '{:^6}'.format('|一一一|')
+                    
+                elif item == row[-1] and item == 0:
+                    reversed_chinese_print_board += '{:^6}'.format('|一一一|')
+                
                 else:
-                    reversed_print_board += '{:^5}'.format('|'+str(self.ID_to_Chinese_name(item)+'|'))
-#                else:
-#                    print_board += '{:>4} '.format(str(item))
-            reversed_print_board += ']|\n'
-        reversed_print_board += '-|-----------------------------------------------------------------|\n'
-        reversed_print_board += ' |  '
+                    reversed_chinese_print_board += '{:^6}'.format(self.ID_to_Chinese_name(item))
+            reversed_chinese_print_board += ']|\n'
+        reversed_chinese_print_board += '-|--------------------------------------------------------------------------|\n'
+        reversed_chinese_print_board += ' |  '
         for i in label_x_axis:
-            reversed_print_board += '  {:3} |'.format(i)
-        reversed_print_board += '\n-|-----------------------------------------------------------------|\n'
-        return reversed_print_board
+            reversed_chinese_print_board += ' {:^6}|'.format(i)
+        reversed_chinese_print_board += '\n-|--------------------------------------------------------------------------|\n'
+
+        return reversed_chinese_print_board
+
 """
 This is a simple implementation to make sure that the game works properly
 
@@ -628,14 +694,10 @@ def initialize_game():
 
 
 
-# ^This whole chunk of code above have to be implemented every time a game starts
-# Or we can put the whole thing into a function and set all the
-# variables (r_soldier_1 etc) to global. But idk it feels messy to me
-
 
 # Call this function to make a move
-# Input: Whose turn, piece ID, new location
-# Output: True or False
+# Input: Whose turn, piece ID, new location, board, dictionary
+# Output: True or error message
 def move_piece(turn, piece_ID , loc, b, dictionary):
     
     piece_moved = dictionary[piece_ID]
@@ -648,15 +710,9 @@ def move_piece(turn, piece_ID , loc, b, dictionary):
     msg = referee.referee(turn, piece_moved, loc, b.get_board(), enemy_general)
     
     
-#    if msg == "END":
-#        return msg
-
     if len(msg) == 0:
         b.update_board(piece_moved, loc)
         return True
     
     else:
         return msg
-
-
-

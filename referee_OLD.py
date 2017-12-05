@@ -12,6 +12,9 @@ Created on Sat May  6 20:14:57 2017
 
 
 
+#import piece
+
+
 
 """
 
@@ -73,7 +76,7 @@ Updated board is then sent to display
 
 # Called only if these pieces were moved
 
-# Works by removing invalid moves from possible moves
+# Modify possible moves to remove invalid moves (when other pieces are in the way)
 
     
 
@@ -251,68 +254,40 @@ def cannon_scanner(cannon, board):
 
 def horse_scanner(horse, board):
 
-    moves = horse.get_possible_moves()[::]
+    moves = horse.get_possible_moves()
 
     x = horse.get_location()[0]
 
     y = horse.get_location()[1]
 
-    # remove moves that fall outside the board firsthand as they interfere
-    # with board[y][x]
-    
-    for move in moves:
-        if move[0] < 0 or move [1] < 0:
-            horse.delete_possible_moves(move)
-
-    # remove moves where there is a piece between horse and target location
-
     for move in moves:
         
-        if move[0] - x == 2:
-            try:
-                if board[y][x+1] != 0:
-                    horse.delete_possible_moves(move)
-            except:
-                pass
+        try:
+            # to catch instances where y+1 or x+1 is out of board
+#            a = board[y][x+1]
+#            b = board[y][x-1]
+#            c = board[y+1][x]
+#            d = board[y+1][x]
             
-        elif x - move[0] == 2:
-            try:
-                if board[y][x-1] != 0:
-                    horse.delete_possible_moves(move)
-            except:
-                pass
-        
-        elif move[1] - y == 2:
-            try:
-                if board[y+1][x] != 0:
-                    print("HERE", board[y+1][x])
-                    horse.delete_possible_moves(move)
-            except:
-                pass
-        elif y - move[1] == 2:
-            try:
-                if board[y-1][x] != 0:
-                    horse.delete_possible_moves(move)
-            except:
-                pass
-        
-        
+            if (move[0] - x == 2 and board[y][x+1] != 0) or\
+               (x - move[0] == 2 and board[y][x-1] != 0) or\
+               (move[1] - y == 2 and board[y+1][x] != 0) or\
+               (y - move[1] == 2 and board[y-1][x] != 0):
+                   horse.delete_possible_moves(move)
+
+        except:
+            pass
+
+
+
+
 
 
 def elephant_scanner(elephant, board):
 
-    moves = elephant.get_possible_moves()[::]
+    moves = elephant.get_possible_moves()
 
     loc = elephant.get_location()
-
-    # remove moves that fall outside the board firsthand as they interfere
-    # with board[y][x]
-    
-    for move in moves:
-        if move[0] < 0 or move [1] < 0:
-            elephant.delete_possible_moves(move)
-
-    # remove moves where there is a piece between elephant and target location
 
     for move in moves:
 
@@ -320,6 +295,8 @@ def elephant_scanner(elephant, board):
         
         try:
             
+#            a = board[midpoint[1]][midpoint[0]]
+
             if board[midpoint[1]][midpoint[0]] != 0:
 
                 elephant.delete_possible_moves(move)
@@ -389,7 +366,7 @@ def general_scanner(general, board):
 
 
 
-# referee returns error messages if move is invalid, True otherwise
+# referee returns error messages if move is invalid
 
 # turn is a str ("red" or "black")
 
