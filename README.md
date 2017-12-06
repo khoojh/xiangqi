@@ -1,15 +1,21 @@
 # xiangqi
-Xiangqi (Chinese chess) to be played in command-line interface
+Xiangqi (Chinese chess) to be played in a command-line interface
 
-(The game is currently down)
 
 ## Installation
 
-TODO: Describe the installation process
+Requires python 3.6
+Clone or download to your machine
 
 ## Usage
 
-TODO: Write usage instructions
+For Mac users:
+1. Open terminal
+2. Navigate to the src folder (cd (folder path)/xiangqi-chinesechess/src)
+3. Run command: python3 chat_server.py
+4. Open two new tabs in terminal
+5. Run command in each of the two new tabs: python3 chat_cmdl_client.py
+6. Have fun!
 
 ## Contributing
 
