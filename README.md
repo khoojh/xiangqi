@@ -5,6 +5,7 @@ Xiangqi (Chinese chess) to be played in a command-line interface
 ## Installation
 
 Requires python 3.6
+
 Clone or download to your machine
 
 ## Usage
